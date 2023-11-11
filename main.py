@@ -38,9 +38,8 @@ def save_data_secure():
 @app.route('/api/v2/list', methods=['GET'])
 def list_data():
     data = col.find().sort({'datetime': -1}).limit(10)
-    for d in list(data):
-        print(d)
-    return jsonify({'ok': True, 'status': 200, 'message': 'Operación realizada exitosamente.'})
+    data = list(map(lambda x: ({**x, '_id': str(x['_id'])}), list(data)))
+    return jsonify({'ok': True, 'status': 200, 'message': 'Operación realizada exitosamente.', 'data': data})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000, debug=True)
