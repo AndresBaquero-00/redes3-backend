@@ -31,9 +31,7 @@ def save_data():
 @app.route('/api/v2/save-secure', methods=['POST'])
 def save_data_secure():
     data = request.get_data().decode()
-    print(data)
     raw = Padding.unpad(cipher.decrypt(bytes.fromhex(data)), 16).decode()
-    print(raw)
     res = col.insert_one(json.loads(raw))
     return jsonify({'ok': True, 'status': 200, 'message': str(res.inserted_id)})
 
