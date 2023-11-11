@@ -21,7 +21,7 @@ def home():
 def save_data():
     data = request.get_json()
     res = col.insert_one(data)
-    return jsonify({'ok': True, 'status': 200, 'message': res.inserted_id})
+    return jsonify({'ok': True, 'status': 200, 'message': str(res.inserted_id)})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000, debug=True)
