@@ -39,7 +39,15 @@ def save_data_secure():
 def list_data():
     data = col.find().sort({'datetime': -1}).limit(15)
     data = list(map(lambda x: ({**x, '_id': str(x['_id'])}), list(data)))
-    return jsonify({'ok': True, 'status': 200, 'message': 'Operación realizada exitosamente.', 'data': data})
+    
+    fechas = []
+    res = []
+    for d in data:
+        if d['datetime'] not in fechas:
+            res.append(d)
+            fechas.append(d['datetime'])
+
+    return jsonify({'ok': True, 'status': 200, 'message': 'Operación realizada exitosamente.', 'data': res})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000, debug=True)
